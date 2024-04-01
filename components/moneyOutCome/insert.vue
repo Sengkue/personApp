@@ -35,7 +35,7 @@
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
                     <!-- :rules="nameRules" -->
-                    <v-text-field
+                    <!-- <v-text-field
                       clearable
                       outlined
                       dense
@@ -43,7 +43,8 @@
                       label="ໃຊ້ກັບ*"
                       required
                       :rules="validationRules.name"
-                    ></v-text-field>
+                    ></v-text-field> -->
+                    <ManagesMoneyTypeSelect @typeValue="emitType" />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
                     <!-- :rules="surnameRules" -->
@@ -56,9 +57,8 @@
                       :rules="validationRules.money"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6"
-                    >
-                    <PeopleSelectPeople @peopleValue="emitPeople"/>
+                  <v-col cols="12" class="py-0" sm="6">
+                    <PeopleSelectPeople @peopleValue="emitPeople" />
                     <!-- <v-text-field
                       clearable
                       outlined
@@ -136,10 +136,11 @@ export default {
     loading: false,
     dialog: false,
     moneyOutComeData: {
+      typeId: null,
       name: null,
       money: null,
       whoseMoney: null,
-      whoseId:null,
+      whoseId: null,
       description: null,
       address: null,
       categoryId: null,
@@ -173,14 +174,19 @@ export default {
   mounted() {},
   methods: {
     openDialog() {
-      this.moneyOutComeData.timestamp = this.timeNow;
+      this.moneyOutComeData.timestamp =
+        this.$moment().format('YYYY-MM-DDTHH:mm:ss');
       this.dialog = true;
     },
 
     emitImage(e) {
       this.moneyOutComeData.image = e;
     },
-    emitPeople(e){
+    emitType(e) {
+      this.moneyOutComeData.typeId = e.id;
+      this.moneyOutComeData.name = e.type;
+    },
+    emitPeople(e) {
       this.moneyOutComeData.whoseId = e.id;
       this.moneyOutComeData.whoseMoney = e.name;
     },
@@ -198,6 +204,8 @@ export default {
 
       this.loading = false;
       this.dialog = false;
+      this.$store.commit('moneyType/setResetType', true);
+      this.$store.commit('people/setResetType', true);
       this.moneyOutComeData = {
         name: null,
         money: null,
@@ -207,7 +215,6 @@ export default {
         address: null,
         categoryId: null,
         image: null,
-        timestamp: null,
         createDate: null,
         updateDate: null,
       };

@@ -186,7 +186,7 @@ export default {
   },
   methods: {
     openDialog() {
-      this.itemData.startDate = this.timeNow;
+      this.itemData.startDate = this.$moment().format('YYYY-MM-DDTHH:mm:ss');;
       this.dialog = true;
     },
 

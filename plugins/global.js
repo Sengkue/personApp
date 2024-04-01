@@ -8,7 +8,6 @@ export const myMixin = {
     return {
       startDate: "",
       endDate: "",
-      timeNow: "",
     };
   },
   computed: {},
@@ -17,10 +16,6 @@ export const myMixin = {
       const currentDate = new Date();
       const year = currentDate.getFullYear();
       const month = currentDate.getMonth() + 1;
-      const indochinaOffset = 7 * 60 * 60 * 1000; // Offset in milliseconds (7 hours for UTC+07:00)
-      // Adjust the time for Indochina Time
-      const indochinaTime = new Date(currentDate.getTime() + indochinaOffset);
-      this.timeNow = indochinaTime.toISOString().slice(0, 16);
       
       this.startDate = `${year}-${month.toString().padStart(2, "0")}-01`;
       const lastDay = new Date(year, month, 0).getDate();

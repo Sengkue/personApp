@@ -1,15 +1,11 @@
 <template>
   <div class="pa-0 ma-0">
-    <!-- <v-text-field
-      @click="openDialog"
-      v-model="selectedItem.name"
-    ></v-text-field> -->
     <v-text-field
-      v-model="selectedItem.name"
+      v-model="selectedItem.type"
       clearable
       outlined
       dense
-      label="ເງິນໃຜ*"
+      label="ປະເພດ*"
       required
       @click="openDialog"
     ></v-text-field>
@@ -19,7 +15,7 @@
       class="pa-0 ma-0"
       max-width="600px"
       :fullscreen="$vuetify.breakpoint.xs ? true : false"
-      >
+    >
       <!-- max-width="600px" -->
       <v-card class="pa-0 ma-0 rounded-0">
         <v-card
@@ -28,7 +24,7 @@
           style="height: 45px"
           dark
         >
-          ເລືອກຜູ້ຄົນທີຕ້ອງການ
+          ເລືອກປະເພດທີຕ້ອງການ
           <v-card-actions>
             <v-btn x-small color="error" @click="closeDialog"
               ><v-icon>mdi-close</v-icon></v-btn
@@ -45,87 +41,88 @@
             hide-details
           ></v-text-field>
           <v-card-actions class="mt-n7">
-            <!-- <v-btn @click="closeDialog"
-              ><v-icon>mdi-account-multiple-plus</v-icon></v-btn
-            > -->
-            <PeopleInsert />
+            <managesMoneyTypeInsert />
           </v-card-actions>
         </div>
-        <v-card-text class="pa-0 ma-0" style="position: relative; height: 75vh; overflow: auto;">
-          <v-list v-if="filteredItems.length > 0">
-            <v-list-item
+        <v-card-text
+          class="pa-0 ma-0"
+          style="position: relative; height: 75vh; overflow: auto"
+        >
+          <div v-if="filteredItems.length > 0" class="d-flex flex-wrap">
+            <v-card
               v-for="item in filteredItems"
               :key="item.id"
               class="box2"
+              width="100px"
               @click="selectItem(item)"
             >
-              <v-avatar :tile="true">
-                <v-img
-                  :src="`${
-                    item?.image
-                      ? item?.image
-                      : 'https://media0.giphy.com/media/ZXkraFrlIW1D25M6ZJ/giphy.gif?cid=ecf05e47pm0kx6y0au52i7n7izc0faihyvmz80t1kotwmd8x&ep=v1_gifs_search&rid=giphy.gif&ct=g'
-                  }`"
-                  lazy-src="https://media.tenor.com/vp3V50Hs-B8AAAAi/loading-waiting.gif"
-                  alt="Avatar"
-                >
-                  <div
-                    style="
-                      width: 100%;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      font-size: 16px;
-                      font-weight: bold;
-                      color: white;
-                      text-shadow: 2px 2px 4px #000000;
-                    "
+              <div class="d-flex justify-center align-center" width="100%">
+                <v-avatar :tile="true">
+                  <v-img
+                    :src="`${
+                      item?.image
+                        ? item?.image
+                        : 'https://media0.giphy.com/media/ZXkraFrlIW1D25M6ZJ/giphy.gif?cid=ecf05e47pm0kx6y0au52i7n7izc0faihyvmz80t1kotwmd8x&ep=v1_gifs_search&rid=giphy.gif&ct=g'
+                    }`"
+                    lazy-src="https://media.tenor.com/vp3V50Hs-B8AAAAi/loading-waiting.gif"
+                    alt="Avatar"
                   >
-                    {{ item?.index }}
-                  </div></v-img
-                >
-              </v-avatar>
-              <v-list-item-content class="pl-2">
-                <v-list-item-title>{{ item?.name }}</v-list-item-title>
-                <v-list-item-subtitle>{{
-                  item?.status?.length > 15
-                    ? item?.status.substring(0, 25) + "..."
-                    : item?.status?.length
-                    ? item?.status
-                    : "..."
-                }}</v-list-item-subtitle>
+                    <div
+                      style="
+                        width: 100%;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        font-size: 16px;
+                        font-weight: bold;
+                        color: white;
+                        text-shadow: 2px 2px 4px #000000;
+                      "
+                    >
+                      {{ item?.index }}
+                    </div></v-img
+                  >
+                </v-avatar>
+              </div>
+
+              <v-list-item-content class="pl-2 text-center">
+                <v-list-item-title>{{ item?.type }}</v-list-item-title>
               </v-list-item-content>
-              <v-menu left>
-                <template #activator="{ on, attrs }">
-                  <v-btn icon v-bind="attrs" v-on="on">
-                    <v-icon>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item class="px-2 ma-0">
-                    <v-tooltip top color="error">
-                      <template #activator="{ on }">
-                        <v-btn icon @click="sendToDelete(item?.id)" v-on="on">
-                          <v-icon color="error"
-                            >mdi-delete-forever-outline</v-icon
-                          >
-                        </v-btn>
-                      </template>
-                      ລືບ
-                    </v-tooltip>
-                    <v-tooltip top color="green">
-                      <template #activator="{ on }">
-                        <v-btn icon @click="sendToEdit(item)" v-on="on">
-                          <v-icon color="green">mdi-square-edit-outline</v-icon>
-                        </v-btn>
-                      </template>
-                      ແກ້ໄຂ
-                    </v-tooltip>
-                  </v-list-item>
-                </v-list>
-              </v-menu>
-            </v-list-item>
-          </v-list>
+              <div class="d-flex justify-end">
+                <v-menu left>
+                  <template #activator="{ on, attrs }">
+                    <v-btn icon v-bind="attrs" v-on="on">
+                      <v-icon>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item class="px-2 ma-0">
+                      <v-tooltip top color="error">
+                        <template #activator="{ on }">
+                          <v-btn icon @click="sendToDelete(item?.id)" v-on="on">
+                            <v-icon color="error"
+                              >mdi-delete-forever-outline</v-icon
+                            >
+                          </v-btn>
+                        </template>
+                        ລືບ
+                      </v-tooltip>
+                      <v-tooltip top color="green">
+                        <template #activator="{ on }">
+                          <v-btn icon @click="sendToEdit(item)" v-on="on">
+                            <v-icon color="green"
+                              >mdi-square-edit-outline</v-icon
+                            >
+                          </v-btn>
+                        </template>
+                        ແກ້ໄຂ
+                      </v-tooltip>
+                    </v-list-item>
+                  </v-list>
+                </v-menu>
+              </div>
+            </v-card>
+          </div>
           <v-card v-else class="no-data-message">
             <v-card-text>ບໍ່ມີຂໍ້ມູນ!</v-card-text>
           </v-card>
@@ -162,7 +159,7 @@
             <v-card>
               <v-form ref="form" v-model="valid">
                 <v-card-title>
-                  <span class="text-h5 shadow">Create people</span>
+                  <span class="text-h5 shadow">ແກ້ໄຂປະເພດ</span>
                 </v-card-title>
                 <v-card-text>
                   <v-container>
@@ -183,68 +180,14 @@
                       </v-col>
                       <v-col cols="12" class="py-0" sm="6">
                         <v-text-field
-                          :rules="nameRules"
+                          :rules="typeRules"
                           clearable
                           outlined
                           dense
-                          v-model="peopleData.name"
-                          label="ຊື່*"
+                          v-model="peopleData.type"
+                          label="ປະເພດ*"
                           required
                         ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" class="py-0" sm="6">
-                        <v-text-field
-                          :rules="surnameRules"
-                          clearable
-                          outlined
-                          dense
-                          v-model="peopleData.surname"
-                          label="ນາມສະກຸນ*"
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" class="py-0" sm="6">
-                        <v-text-field
-                          :rules="statusRules"
-                          clearable
-                          outlined
-                          dense
-                          v-model="peopleData.status"
-                          label="ສະຖານະ*"
-                          placeholder="ຕົວຢ່າງ: ພໍ່ແມ່, ໝູ່ເພື່ອນ..."
-                        ></v-text-field>
-                      </v-col>
-
-                      <v-col cols="12" class="py-0" sm="6">
-                        <v-text-field
-                          :rules="telephoneRules"
-                          clearable
-                          outlined
-                          dense
-                          v-model="peopleData.tel"
-                          label="ເບີ*"
-                          required
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" class="py-0" sm="6"
-                        ><v-text-field
-                          :rules="nameRules"
-                          clearable
-                          outlined
-                          dense
-                          v-model="peopleData.facebook"
-                          label="ເຟສບຸກ*"
-                          required
-                        ></v-text-field>
-                      </v-col>
-                      <v-col cols="12" class="py-0">
-                        <v-textarea
-                          clearable
-                          outlined
-                          dense
-                          v-model="peopleData.detail"
-                          label="ລາຍລະອຽດ*"
-                          required
-                        ></v-textarea>
                       </v-col>
                     </v-row>
                   </v-container>
@@ -280,73 +223,64 @@
 
 <script>
 export default {
-  name: "TypeSelect",
+  type: "TypeSelect",
 
   data() {
     return {
       loading: false,
       valid: false,
       dialog: false,
-      selectedItem: { id: null, name: null, image: null, createDate: null },
+      selectedItem: { id: null, type: null, image: null, createDate: null },
       search: "",
       dialogDelete: false,
       deleteId: null,
       dialogUpdate: false,
       peopleData: {
         id: null,
-        name: null,
-        surname: null,
-        status: null,
-        tel: null,
-        detail: null,
-        facebook: null,
+        type: null,
         image: null,
         createDate: null,
         updateDate: null,
       },
-      nameRules: [
+      typeRules: [
         (v) => !!v || "ກະລຸນາປ້ອມຊື່",
         (v) => (v && v.length <= 50) || "ຊື່ຄວາມຕ້ອງໜ້ອຍ 50 ໂຕອັກສອນ",
-      ],
-      surnameRules: [
-        (v) => !!v || "ກະລຸນາປ້ອມນາມສະກຸນ",
-        (v) => (v && v.length <= 50) || "ນາມສະກຸນຕ້ອງໜ້ອຍ 50 ໂຕອັກສອນ",
-      ],
-      statusRules: [
-        (v) => !!v || "ກະລຸນາປ້ອມສະຖານະ",
-        (v) => (v && v.length <= 100) || "ສະຖານະຕ້ອງໜ້ອຍ 100 ໂຕອັກສອນ",
-      ],
-      telephoneRules: [
-        (v) => !!v || "ກະລຸນາປ້ອມເບີໂທລະສັບ",
-        (v) => /^\d+$/.test(v) || "ເບີໂທລະສັບຕ້ອງມີຕົວເລກເລີຍ",
-        (v) => (v && v.length <= 15) || "ເບີໂທລະສັບຕ້ອງໜ້ອຍ 15 ໂຕອັກສອນ",
       ],
     };
   },
 
   computed: {
     getItem() {
-      return this.$store.state.people.peopleData.map((item, index) => ({
+      return this.$store.state.moneyType.moneyTypeData?.map((item, index) => ({
         ...item,
+        money: parseInt(item.money),
         index: index + 1,
       }));
     },
     filteredItems() {
       const regex = new RegExp(this.search.trim(), "i");
       return this.getItem.filter(
-        (item) => regex.test(item.name) || regex.test(item.createDate)
+        (item) => regex.test(item.type) || regex.test(item.createDate)
       );
+    },
+
+    reset() {
+      if (this.$store.state.moneyType.resetType) {
+        this.selectedItem.type = null;
+        this.selectedItem.id = null;
+        this.$store.commit("moneyType/setResetType", false);
+      }
+      return this.$store.state.moneyType.resetType;
     },
   },
   async mounted() {
     this.loading = true;
-    await this.$store.dispatch("people/selectAll");
+    await this.$store.dispatch("moneyType/selectAll");
     this.loading = false;
   },
-
   methods: {
     emitImage(e) {
-      this.peopleData.image = e; // Update the imageUrl when received from the child component
+      this.peopleData.image = e;
     },
     // delete session___________________________________________________________
     sendToDelete(id) {
@@ -355,7 +289,7 @@ export default {
     },
     async deleteItem() {
       this.loading = true;
-      await this.$store.dispatch("people/deleteItem", this.deleteId);
+      await this.$store.dispatch("moneyType/deleteItem", this.deleteId);
       this.dialogDelete = false;
       this.loading = false;
     },
@@ -363,21 +297,14 @@ export default {
     sendToEdit(item) {
       this.dialogUpdate = true;
       this.peopleData.id = item?.id;
-      this.peopleData.name = item?.name;
-      this.peopleData.surname = item?.surname;
-      this.peopleData.status = item?.status;
-      this.peopleData.tel = item?.tel;
-      this.peopleData.detail = item?.detail;
-      this.peopleData.facebook = item?.facebook;
-      this.peopleData.image = item?.image;
-      this.peopleData.createDate = item?.createDate;
+      this.peopleData.type = item?.type;
     },
     async updateItem() {
       this.$refs.form.validate();
       if (!this.valid) return;
       this.loading = true;
       this.peopleData.updateDate = new Date();
-      await this.$store.dispatch("people/updatePeople", this.peopleData);
+      await this.$store.dispatch("moneyType/updatemoneyType", this.peopleData);
       this.loading = false;
       this.dialogUpdate = false;
     },
@@ -391,13 +318,11 @@ export default {
 
     selectItem(item) {
       this.selectedItem = { ...item };
-      this.$emit("peopleValue", this.selectedItem);
+      this.$emit("typeValue", this.selectedItem);
       this.dialog = false;
     },
 
-    filterItems() {
-      // The filteredItems computed property will automatically update based on the search input.
-    },
+    filterItems() {},
   },
 };
 </script>

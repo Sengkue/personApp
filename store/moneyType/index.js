@@ -1,9 +1,13 @@
 export const state = () => ({
     moneyTypeData: [],
-    totalMoney: 0
+    totalMoney: 0,
+    resetType: false,
   });
 
   export const mutations = {
+    setResetType(state, data) {
+      state.resetType = data;
+    },
     setmoneyType(state, data) {
       state.moneyTypeData = data;
     },

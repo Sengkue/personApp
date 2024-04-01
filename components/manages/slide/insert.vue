@@ -167,7 +167,7 @@ export default {
   }),
   methods: {
     openDialog() {
-      this.itemData.timestamp = this.timeNow;
+      this.itemData.timestamp = this.$moment().format('YYYY-MM-DDTHH:mm:ss');;
       this.dialog = true;
     },
     async insert() {

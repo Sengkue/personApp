@@ -172,6 +172,20 @@ export default {
       );
       this.loading = false;
       this.dialog = false;
+
+      // clear data
+      moneyOutComeData = {
+        id: null,
+        name: null,
+        money: null,
+        whoseMoney: null,
+        description: null,
+        timestamp: null,
+        image: null,
+        createDate: null,
+        updateDate: null,
+        
+      }
     },
   },
 };

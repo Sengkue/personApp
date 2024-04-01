@@ -149,7 +149,7 @@ export default {
   mounted() {},
   methods: {
     openDialog() {
-      this.moneyGetOutData.timestamp = this.timeNow;
+      this.moneyGetOutData.timestamp = this.$moment().format('YYYY-MM-DDTHH:mm:ss');;
       this.dialog = true;
     },
 

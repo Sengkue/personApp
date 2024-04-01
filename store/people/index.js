@@ -1,8 +1,13 @@
 export const state = () => ({
   peopleData: [],
+  resetType: false,
+
 });
 
 export const mutations = {
+  setResetType(state, data) {
+    state.resetType = data;
+  },
   setPeople(state, data) {
     state.peopleData = data;
   },
