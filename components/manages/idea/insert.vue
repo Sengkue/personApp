@@ -1,0 +1,167 @@
+<template>
+  <div>
+    <v-btn class="mt-1" color="teal" dark @click="openDialog()"
+      ><v-icon>mdi-plus-box</v-icon>ເພີ່ມໃໝ່</v-btn
+    >
+    <v-row justify="center">
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="600px"
+        :fullscreen="$vuetify.breakpoint.xs ? true : false"
+      >
+        <v-card>
+          <v-card-title>
+            <span>ແຜນການແລະເປົ່າໝາຍ</span>
+          </v-card-title>
+          <v-form ref="form" v-model="valid">
+            <v-card-text>
+              <v-row>
+                <v-col cols="8" class="py-0">
+                  <v-text-field
+                    clearable
+                    outlined
+                    dense
+                    v-model="itemData.image"
+                    label="URL"
+                    required
+                    hide-details="auto"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="4" class="mt-n3">
+                  <moneyGetOutUpload @image-uploaded="emitImage" />
+                </v-col>
+                <v-col cols="12" class="py-0" sm="6">
+                  <!-- :rules="titleRules" -->
+                  <v-text-field
+                    clearable
+                    outlined
+                    dense
+                    v-model="itemData.title"
+                    label="ຫົວຂໍ້*"
+                    required
+                    :rules="validationRules.title"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12" class="py-0" sm="6">
+                    <v-text-field
+                      type="datetime-local"
+                      v-model="itemData.timestamp"
+                      label="ເວລາໃໍຊ້*"
+                      clearable
+                      required
+                      dense
+                      outlined
+                    />
+                  </v-col>
+                <v-col cols="12" class="py-0" sm="6">
+                  <v-radio-group v-model="itemData.status" row>
+                    <v-radio label="ຍັງບໍ່ເຄື່ອນໄຫວ" value="0"></v-radio>
+                    <v-radio label="ກຳລັງດຳເນີນ" value="1"></v-radio>
+                    <v-radio label="ສຳເລັດ" value="2"></v-radio>
+                    <v-radio label="ລົ້ມເຫຼວ" value="3"></v-radio>
+                  </v-radio-group>
+                </v-col>
+
+                <v-col cols="12" class="py-0">
+                  <v-textarea
+                    clearable
+                    outlined
+                    dense
+                    v-model="itemData.description"
+                    label="ລາຍລະອຽດ*"
+                    required
+                  ></v-textarea>
+                </v-col>
+              </v-row>
+            </v-card-text>
+
+            <v-card-actions>
+              <v-spacer></v-spacer>
+              <v-btn color="blue darken-1" text @click="dialog = false">
+                ປິດ
+              </v-btn>
+              <v-btn
+                color="blue darken-1"
+                :loading="loading"
+                text
+                :disabled="!valid"
+                @click="insert()"
+              >
+                ບັນທຶກ
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-dialog>
+    </v-row>
+  </div>
+</template>
+<script>
+export default {
+  data: () => ({
+    valid: false,
+    loading: false,
+    dialog: false,
+    itemData: {
+      title: null,
+      description: null,
+      timestamp: null,
+      status: "0",
+      image: null,
+      createDate: null,
+      updateDate: null,
+    },
+    validationRules: {
+      title: [
+        (v) => !!v || "title is required",
+        (v) => (v && v.length <= 50) || "title must be less than 50 characters",
+      ],
+      description: [(v) => !!v || "Description is required"],
+      address: [(v) => !!v || "Address is required"],
+      timestamp: [(v) => !!v || "Timestamp is required"],
+      // Add rules for other fields as needed
+    },
+  }),
+  computed: {},
+  mounted() {},
+  methods: {
+    openDialog() {
+      this.itemData.timestamp = this.timeNow;
+      this.dialog = true;
+    },
+
+    emitImage(e) {
+      this.itemData.image = e; // Update the imageUrl when received from the child component
+    },
+    async insert() {
+      this.$refs.form.validate();
+      if (!this.valid) return;
+
+      this.loading = true;
+      (this.itemData.createDate = new Date()),
+        (this.itemData.updateDate = new Date()),
+        await this.$store.dispatch("idea/addidea", this.itemData);
+
+      this.loading = false;
+      this.dialog = false;
+      this.itemData = {
+        title: null,
+        description: null,
+        image: null,
+        createDate: null,
+        updateDate: null,
+      };
+    },
+  },
+};
+</script>
+
+<style>
+.shadow {
+  border-bottom: 2px solid black;
+  border-right: 2px solid black;
+  padding: 5px;
+  box-shadow: 2px 2px 4px #999;
+}
+</style>
