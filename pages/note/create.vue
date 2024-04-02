@@ -47,9 +47,9 @@ export default {
     },
     async createNote() {
       try {
-        this.data.date = await this.$moment(Date()).format(
-          "HH:mm:ss DD-MM-YYYY"
-        );
+        this.data.date =this.$moment().format(
+        "YYYY-MM-DDTHH:mm:ss"
+      );
         await this.$axios.post("/note.json", this.data).then((res) => {
           this.$router.back();
         });
