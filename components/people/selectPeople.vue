@@ -337,14 +337,6 @@ export default {
         (item) => regex.test(item.name) || regex.test(item.createDate)
       );
     },
-    reset() {
-      if (this.$store.state.people.resetType) {
-        this.selectedItem.name = null;
-        this.selectedItem.id = null;
-        this.$store.commit("people/setResetType", false);
-      }
-      return this.$store.state.people.resetType;
-    },
   },
   async mounted() {
     this.loading = true;
@@ -353,6 +345,15 @@ export default {
   },
 
   methods: {
+    resetForm() {
+      this.selectedItem = {
+        id: null,
+        name: null,
+        image: null,
+        createDate: null,
+        
+      }
+    },
     emitImage(e) {
       this.peopleData.image = e; // Update the imageUrl when received from the child component
     },

@@ -263,15 +263,6 @@ export default {
         (item) => regex.test(item.type) || regex.test(item.createDate)
       );
     },
-
-    reset() {
-      if (this.$store.state.moneyType.resetType) {
-        this.selectedItem.type = null;
-        this.selectedItem.id = null;
-        this.$store.commit("moneyType/setResetType", false);
-      }
-      return this.$store.state.moneyType.resetType;
-    },
   },
   async mounted() {
     this.loading = true;
@@ -279,6 +270,14 @@ export default {
     this.loading = false;
   },
   methods: {
+    resetForm() {
+      this.selectedItem = {
+        id: null,
+        type: null,
+        image: null,
+        createDate: null,
+      };
+    },
     emitImage(e) {
       this.peopleData.image = e;
     },

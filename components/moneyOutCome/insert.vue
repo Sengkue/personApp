@@ -44,7 +44,10 @@
                       required
                       :rules="validationRules.name"
                     ></v-text-field> -->
-                    <ManagesMoneyTypeSelect @typeValue="emitType" />
+                    <ManagesMoneyTypeSelect
+                      ref="resetTypeSelect"
+                      @typeValue="emitType"
+                    />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
                     <!-- :rules="surnameRules" -->
@@ -58,7 +61,7 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
-                    <PeopleSelectPeople @peopleValue="emitPeople" />
+                    <PeopleSelectPeople ref="resetPeopleSelect" @peopleValue="emitPeople" />
                     <!-- <v-text-field
                       clearable
                       outlined
@@ -174,8 +177,9 @@ export default {
   mounted() {},
   methods: {
     openDialog() {
-      this.moneyOutComeData.timestamp =
-        this.$moment().format('YYYY-MM-DDTHH:mm:ss');
+      this.moneyOutComeData.timestamp = this.$moment().format(
+        "YYYY-MM-DDTHH:mm:ss"
+      );
       this.dialog = true;
     },
 
@@ -202,10 +206,12 @@ export default {
           this.moneyOutComeData
         );
 
+      this.resetFormMoneyTypeSelect();
+      this.resetFormPeopleSelect();
+
       this.loading = false;
       this.dialog = false;
-      this.$store.commit('moneyType/setResetType', true);
-      this.$store.commit('people/setResetType', true);
+
       this.moneyOutComeData = {
         name: null,
         money: null,
@@ -218,6 +224,12 @@ export default {
         createDate: null,
         updateDate: null,
       };
+    },
+    resetFormMoneyTypeSelect() {
+      this.$refs.resetTypeSelect.resetForm();
+    },
+    resetFormPeopleSelect() {
+      this.$refs.resetPeopleSelect.resetForm();
     },
   },
 };
