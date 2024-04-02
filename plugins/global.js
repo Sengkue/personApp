@@ -74,4 +74,9 @@ export const myMixin = {
 if (!Vue.__my_mixin__) {
   Vue.__my_mixin__ = true;
   Vue.mixin(myMixin);
+
+  // Add event listener to disable right-clicking
+  // document.addEventListener('contextmenu', function(event) {
+  //   event.preventDefault();
+  // });
 }

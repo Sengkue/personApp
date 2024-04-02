@@ -119,7 +119,6 @@ export default {
       headers: [
         { text: "ລຳດັບ", value: "index" },
         { text: "ຮູບ", value: "image" },
-        { text: "ໃຊ້ກັບ", value: "name" },
         { text: "ຈຳນວນເງິນ", value: "money" },
         { text: "ເງິນໃຜ", value: "whoseMoney" },
         { text: "ສະຖານະ", value: "status" },

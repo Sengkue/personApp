@@ -39,38 +39,25 @@
                   <v-col cols="4" class="mt-n3">
                     <moneyGetInUpload @image-uploaded="emitImage" />
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyGetInData.name"
-                      label="ໃຊ້ຈ່າຍກັບ*"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
+                  <v-col cols="12"  sm="6">
                     <v-text-field
                       clearable
                       outlined
                       dense
                       v-model="moneyGetInData.money"
                       label="ຈຳນວນເງິນ*"
-                    ></v-text-field>
-                  </v-col>
-
-                  <v-col cols="12"  sm="6">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyGetInData.whoseMoney"
-                      label="ເງິນໃຜ*"
                       required
                       hide-details="auto"
                     ></v-text-field>
                   </v-col>
+
                   <v-col cols="12"  sm="6">
+                    <PeopleSelectPeople
+                      :task="moneyGetInData.whoseMoney"
+                      @peopleValue="emitPeople"
+                    />
+                  </v-col>
+                  <v-col cols="12" class="py-0"  sm="6">
                     <v-text-field
                       type="datetime-local"
                       v-model="moneyGetInData.timestamp"
@@ -82,21 +69,18 @@
                       hide-details="auto"
                     />
                   </v-col>
-                  <v-col cols="12" sm="6">
+                  <v-col cols="12" class="py-0" sm="6" >
                     <v-radio-group v-model="moneyGetInData.status">
                       <v-radio label="ຄືນແລ້ວ" value="1"></v-radio>
                       <v-radio label="ຍັງບໍ່ໄດ້ຄືນ" value="0"></v-radio>
                     </v-radio-group>
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                    <vue-editor
                       v-model="moneyGetInData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -126,7 +110,10 @@
 <script>
 export default {
   props: {
-    item: [],
+    item: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data: () => ({
     valid: false,
@@ -145,20 +132,19 @@ export default {
       updateDate: null,
     },
   }),
-  computed: {},
-  mounted() {
-    this.moneyGetInData.id = this.item.id;
-    this.moneyGetInData.name = this.item.name;
-    this.moneyGetInData.money = this.item.money;
-    this.moneyGetInData.whoseMoney = this.item.whoseMoney;
-    this.moneyGetInData.description = this.item.description;
-    this.moneyGetInData.status = this.item.status;
-    this.moneyGetInData.timestamp = this.item.timestamp;
-    this.moneyGetInData.image = this.item.image;
-    this.moneyGetInData.createDate = this.item.createDate;
+  watch: {
+    item: {
+      handler(newVal) {
+        Object.assign(this.moneyGetInData, { ...newVal });
+      },
+      immediate: true,
+    },
   },
 
   methods: {
+    emitPeople(e) {
+      this.moneyGetInData.whoseMoney = e.name;
+    },
     emitImage(e) {
       this.moneyGetInData.image = e; // Update the imageUrl when received from the child component
     },

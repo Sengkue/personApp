@@ -16,7 +16,12 @@
       Edit
     </v-tooltip>
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="600px" :fullscreen="$vuetify.breakpoint.xs ? true : false">
+      <v-dialog
+        v-model="dialog"
+        persistent
+        max-width="600px"
+        :fullscreen="$vuetify.breakpoint.xs ? true : false"
+      >
         <v-card>
           <v-form ref="form" v-model="valid">
             <v-card-title>
@@ -39,42 +44,28 @@
                   <v-col cols="4" class="mt-n3">
                     <moneyGetOutUpload @image-uploaded="emitImage" />
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyGetOutData.name"
-                      label="ໃຊ້ຈ່າຍກັບ*"
-                      required
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
+                  <v-col cols="12" sm="6">
                     <v-text-field
                       clearable
                       outlined
                       dense
                       v-model="moneyGetOutData.money"
                       label="ຈຳນວນເງິນ*"
+                      hide-details="auto"
                     ></v-text-field>
                   </v-col>
 
                   <v-col cols="12"  sm="6">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyGetOutData.whoseMoney"
-                      label="ເງິນໃຜ*"
-                      required
-                      hide-details="auto"
-                    ></v-text-field>
+                    <PeopleSelectPeople
+                      :task="moneyGetOutData.whoseMoney"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
-                  <v-col cols="12"  sm="6">
+                  <v-col cols="12" class="py-0" sm="6">
                     <v-text-field
                       type="datetime-local"
                       v-model="moneyGetOutData.timestamp"
-                      label="ເວລາໃໍຊ້*"
+                      label="ເວລາຢືນ*"
                       clearable
                       required
                       dense
@@ -82,21 +73,18 @@
                       hide-details="auto"
                     />
                   </v-col>
-                  <v-col cols="12" sm="6">
+                  <v-col cols="12" class="py-0" sm="6">
                     <v-radio-group v-model="moneyGetOutData.status">
                       <v-radio label="ຄືນແລ້ວ" value="1"></v-radio>
                       <v-radio label="ຍັງບໍ່ໄດ້ຄືນ" value="0"></v-radio>
                     </v-radio-group>
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                    <vue-editor
                       v-model="moneyGetOutData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -126,7 +114,10 @@
 <script>
 export default {
   props: {
-    item: [],
+    item: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data: () => ({
     valid: false,
@@ -145,20 +136,19 @@ export default {
       updateDate: null,
     },
   }),
-  computed: {},
-  mounted() {
-    this.moneyGetOutData.id = this.item.id;
-    this.moneyGetOutData.name = this.item.name;
-    this.moneyGetOutData.money = this.item.money;
-    this.moneyGetOutData.whoseMoney = this.item.whoseMoney;
-    this.moneyGetOutData.description = this.item.description;
-    this.moneyGetOutData.status = this.item.status;
-    this.moneyGetOutData.timestamp = this.item.timestamp;
-    this.moneyGetOutData.image = this.item.image;
-    this.moneyGetOutData.createDate = this.item.createDate;
+  watch: {
+    item: {
+      handler(newVal) {
+        Object.assign(this.moneyGetOutData, { ...newVal });
+      },
+      immediate: true,
+    },
   },
 
   methods: {
+    emitPeople(e) {
+      this.moneyGetOutData.whoseMoney = e.name;
+    },
     emitImage(e) {
       this.moneyGetOutData.image = e; // Update the imageUrl when received from the child component
     },

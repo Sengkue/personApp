@@ -2,78 +2,76 @@
   <v-expansion-panels accordion>
     <v-expansion-panel v-for="(item, i) in paginatedItems" :key="i">
       <v-expansion-panel-header
-          class="pa-0 ma-0"
-          style="box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.12)"
-        >
+        class="pa-0 ma-0"
+        style="box-shadow: inset 0 -1px 0 0 rgba(0, 0, 0, 0.12)"
+      >
+        <div class="d-flex justify-space-between pa-0 ma-0">
           <div class="d-flex justify-space-between pa-0 ma-0">
-            <div class="d-flex justify-space-between pa-0 ma-0">
-              <div>
-                <v-img
-                  class="align-center ma-2"
-                  :src="`${
-                    item?.image
-                      ? item?.image
-                      : 'https://media0.giphy.com/media/ZXkraFrlIW1D25M6ZJ/giphy.gif?cid=ecf05e47pm0kx6y0au52i7n7izc0faihyvmz80t1kotwmd8x&ep=v1_gifs_search&rid=giphy.gif&ct=g'
-                  }`"
-                  lazy-src="https://media0.giphy.com/media/ZXkraFrlIW1D25M6ZJ/giphy.gif?cid=ecf05e47pm0kx6y0au52i7n7izc0faihyvmz80t1kotwmd8x&ep=v1_gifs_search&rid=giphy.gif&ct=g"
-                  width="65"
-                  height="65"
-                  style="border-radius: 10px"
-                  contain
-                >
-                  <div
-                    style="
-                      width: 100%;
-                      display: flex;
-                      align-items: center;
-                      justify-content: center;
-                      font-size: 25px;
-                      font-weight: bold;
-                      color: white;
-                      text-shadow: 2px 2px 4px #000000;
-                    "
-                  >
-                    {{ item?.index }}
-                  </div>
-                </v-img>
-              </div>
-              <div
-                class="d-flex flex-column justify-space-between ma-2"
-                style="font-size: 14px"
+            <div>
+              <v-img
+                class="align-center ma-2"
+                :src="`${
+                  item?.image
+                    ? item?.image
+                    : 'https://media0.giphy.com/media/ZXkraFrlIW1D25M6ZJ/giphy.gif?cid=ecf05e47pm0kx6y0au52i7n7izc0faihyvmz80t1kotwmd8x&ep=v1_gifs_search&rid=giphy.gif&ct=g'
+                }`"
+                lazy-src="https://media0.giphy.com/media/ZXkraFrlIW1D25M6ZJ/giphy.gif?cid=ecf05e47pm0kx6y0au52i7n7izc0faihyvmz80t1kotwmd8x&ep=v1_gifs_search&rid=giphy.gif&ct=g"
+                width="65"
+                height="65"
+                style="border-radius: 10px"
+                contain
               >
-                <div>
-                  {{
-                    item?.name?.length > 13
-                      ? item?.name?.slice(0, 13) + "..."
-                      : item?.name
-                  }}
-                </div>
-                <div>{{ formatPrice(item?.money) }} ກີບ</div>
                 <div
-                  :class="item?.status === '1' ? 'green--text' : 'red--text'"
+                  style="
+                    width: 100%;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    font-size: 25px;
+                    font-weight: bold;
+                    color: white;
+                    text-shadow: 2px 2px 4px #000000;
+                  "
                 >
-                  {{ item?.status === "1" ? "ຄືນແລ້ວ" : "ຍັງບໍ່ໄດ້ຄືນ" }}
+                  {{ item?.index }}
                 </div>
-              </div>
+              </v-img>
             </div>
             <div
               class="d-flex flex-column justify-space-between ma-2"
-              width="100%"
+              style="font-size: 14px"
             >
-              <div class="d-flex justify-end" style="font-size: 14px">
-                {{ item?.createDate | DateToText }}
+              <div>
+                {{
+                  item?.name?.length > 13
+                    ? item?.name?.slice(0, 13) + "..."
+                    : item?.name
+                }}
               </div>
-              <!-- <div class="d-flex justify-end mb-4">
+              <div>{{ formatPrice(item?.money) }} ກີບ</div>
+              <div :class="item?.status === '1' ? 'green--text' : 'red--text'">
+                {{ item?.status === "1" ? "ຄືນແລ້ວ" : "ຍັງບໍ່ໄດ້ຄືນ" }}
+              </div>
+            </div>
+          </div>
+          <div
+            class="d-flex flex-column justify-space-between ma-2"
+            width="100%"
+          >
+            <div class="d-flex justify-end" style="font-size: 14px">
+              {{ item?.createDate | DateToText }}
+            </div>
+            <!-- <div class="d-flex justify-end mb-4">
                 <moneyGetOutDelete :item="item?.id" />
                 <moneyGetOutEdit :item="item" class="ml-3" />
               </div> -->
-            </div>
           </div>
+        </div>
 
-          <template v-slot:actions>
-            <v-icon color="teal"> </v-icon>
-          </template>
-        </v-expansion-panel-header>
+        <template v-slot:actions>
+          <v-icon color="teal"> </v-icon>
+        </template>
+      </v-expansion-panel-header>
       <v-expansion-panel-content>
         <v-row class="pa-0 ma-0">
           <v-col cols="12" sm="4" class="pa-0 pt-1 ma-0">
@@ -125,9 +123,10 @@
                 item?.updateDate | DateToText
               }}</v-col>
               <v-col cols="5" class="pa-3">ລາຍລະອຽດ:</v-col>
-              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">{{
-                item?.description
-              }}</v-col>
+              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">
+                <div v-if="item?.description" v-html="item?.description"></div>
+                <div v-else>ບໍ່ມີຂໍ້ມູນ</div>
+              </v-col>
             </v-row>
           </v-col>
         </v-row>

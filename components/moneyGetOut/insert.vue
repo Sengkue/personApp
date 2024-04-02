@@ -32,20 +32,8 @@
                   <v-col cols="4" class="mt-n3">
                     <moneyGetOutUpload @image-uploaded="emitImage" />
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
-                    <!-- :rules="nameRules" -->
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyGetOutData.name"
-                      label="ໃຊ້ກັບ*"
-                      required
-                      :rules="validationRules.name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
-                    <!-- :rules="surnameRules" -->
+
+                  <v-col cols="12" sm="6">
                     <v-text-field
                       clearable
                       outlined
@@ -55,8 +43,11 @@
                       :rules="validationRules.money"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6"
-                    > <PeopleSelectPeople @peopleValue="emitPeople"/>
+                  <v-col cols="12" sm="6">
+                    <PeopleSelectPeople
+                      ref="resetPeopleSelect"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
 
                   <v-col cols="12" class="py-0" sm="6">
@@ -72,15 +63,11 @@
                     />
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                    <vue-editor
                       v-model="moneyGetOutData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                      :rules="validationRules.description"
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -119,44 +106,39 @@ export default {
       whoseMoney: null,
       description: null,
       status: "0",
-      timestamp: null,  
+      timestamp: null,
       image: null,
       timestamp: null,
       createDate: null,
       updateDate: null,
     },
     validationRules: {
-      name: [
-        (v) => !!v || "Name is required",
-        (v) => (v && v.length <= 50) || "Name must be less than 50 characters",
-      ],
       money: [
         (v) =>
           v === null ||
           v === undefined ||
           v === "" ||
           /^\d+(\.\d{1,2})?$/.test(v) ||
-          "Invalid money format",
+          "ປ້ອມພຽງຕົວເລກ",
       ],
       whoseMoney: [(v) => !!v || "Whose money is required"],
       description: [(v) => !!v || "Description is required"],
       address: [(v) => !!v || "Address is required"],
       timestamp: [(v) => !!v || "Timestamp is required"],
-      // Add rules for other fields as needed
     },
   }),
-  computed: {},
-  mounted() {},
   methods: {
     openDialog() {
-      this.moneyGetOutData.timestamp = this.$moment().format('YYYY-MM-DDTHH:mm:ss');;
+      this.moneyGetOutData.timestamp = this.$moment().format(
+        "YYYY-MM-DDTHH:mm:ss"
+      );
       this.dialog = true;
     },
 
     emitImage(e) {
       this.moneyGetOutData.image = e; // Update the imageUrl when received from the child component
     },
-    emitPeople(e){
+    emitPeople(e) {
       this.moneyGetOutData.whoseId = e.id;
       this.moneyGetOutData.whoseMoney = e.name;
     },
@@ -171,7 +153,7 @@ export default {
           "moneyGetOut/addmoneyGetOut",
           this.moneyGetOutData
         );
-
+      this.resetFormPeopleSelect();
       this.loading = false;
       this.dialog = false;
       this.moneyGetOutData = {
@@ -185,6 +167,9 @@ export default {
         createDate: null,
         updateDate: null,
       };
+    },
+    resetFormPeopleSelect() {
+      this.$refs.resetPeopleSelect.resetForm();
     },
   },
 };

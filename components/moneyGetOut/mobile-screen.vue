@@ -99,8 +99,6 @@
             </v-col>
             <v-col cols="12" sm="8" class="pa-0 ma-0">
               <v-row class="pa-0 ma-0">
-                <v-col cols="5" class="pa-3">ໃຊ້ຈ່າຍກັບ:</v-col>
-                <v-col cols="6" class="pa-3">{{ item?.name }}</v-col>
                 <v-col cols="5" class="pa-3">ຈຳນວນເງິນ:</v-col>
                 <v-col cols="6" class="pa-3"
                   >{{ formatPrice(item?.money) }} ກີບ</v-col
@@ -113,7 +111,7 @@
                   ><div
                     :class="item?.status === '1' ? 'green--text' : 'red--text'"
                   >
-                    {{ item?.status === '1'? 'ຄືນແລ້ວ' : 'ຍັງບໍ່ໄດ້ຄືນ' }}
+                    {{ item?.status === "1" ? "ຄືນແລ້ວ" : "ຍັງບໍ່ໄດ້ຄືນ" }}
                   </div></v-col
                 >
                 <v-col cols="5" class="pa-3">ເວລາໃຊ້ຈ່າຍ:</v-col>
@@ -130,9 +128,13 @@
                   item?.updateDate | DateToText
                 }}</v-col>
                 <v-col cols="5" class="pa-3">ລາຍລະອຽດ:</v-col>
-                <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">{{
-                  item?.description
-                }}</v-col>
+                <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">
+                  <div
+                    v-if="item?.description"
+                    v-html="item?.description"
+                  ></div>
+                  <div v-else>ບໍ່ມີຂໍ້ມູນ</div>
+                </v-col>
               </v-row>
             </v-col>
           </v-row>

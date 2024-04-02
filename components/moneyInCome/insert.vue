@@ -42,8 +42,11 @@
                       label="ຈຳນວນເງິນ*"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6"
-                    > <PeopleSelectPeople @peopleValue="emitPeople"/>
+                  <v-col cols="12" class="py-0" sm="6">
+                    <PeopleSelectPeople
+                      ref="resetPeopleSelect"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
                     <v-text-field
@@ -58,14 +61,11 @@
                     />
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <v-textarea
-                    v-model="moneyGetInData.description"
-                      clearable
-                      outlined
-                      dense
-                      label="ລາຍລະອຽດ*"
-                      required
-                    ></v-textarea>
+                    <vue-editor
+                      v-model="moneyGetInData.description"
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -130,14 +130,16 @@ export default {
   mounted() {},
   methods: {
     openDialog() {
-      this.moneyGetInData.timestamp = this.$moment().format('YYYY-MM-DDTHH:mm:ss');;
+      this.moneyGetInData.timestamp = this.$moment().format(
+        "YYYY-MM-DDTHH:mm:ss"
+      );
       this.dialog = true;
     },
 
     emitImage(e) {
       this.moneyGetInData.image = e; // Update the imageUrl when received from the child component
     },
-    emitPeople(e){
+    emitPeople(e) {
       this.moneyGetInData.whoseId = e.id;
       this.moneyGetInData.whoseMoney = e.name;
     },
@@ -152,7 +154,7 @@ export default {
           "moneyInCome/addmoneyInCome",
           this.moneyGetInData
         );
-
+      this.resetFormPeopleSelect();
       this.loading = false;
       this.dialog = false;
       this.moneyGetInData = {
@@ -166,6 +168,9 @@ export default {
         createDate: null,
         updateDate: null,
       };
+    },
+    resetFormPeopleSelect() {
+      this.$refs.resetPeopleSelect.resetForm();
     },
   },
 };

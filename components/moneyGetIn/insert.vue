@@ -33,19 +33,6 @@
                     <moneyGetInUpload @image-uploaded="emitImage" />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
-                    <!-- :rules="nameRules" -->
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyGetInData.name"
-                      label="ໃຊ້ກັບ*"
-                      required
-                      :rules="validationRules.name"
-                    ></v-text-field>
-                  </v-col>
-                  <v-col cols="12" class="py-0" sm="6">
-                    <!-- :rules="surnameRules" -->
                     <v-text-field
                       clearable
                       outlined
@@ -55,8 +42,11 @@
                       :rules="validationRules.money"
                     ></v-text-field>
                   </v-col>
-                  <v-col cols="12" class="py-0" sm="6"
-                    > <PeopleSelectPeople @peopleValue="emitPeople"/>
+                  <v-col cols="12" class="py-0" sm="6">
+                    <PeopleSelectPeople
+                      ref="resetPeopleSelect"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
 
                   <v-col cols="12" class="py-0" sm="6">
@@ -72,15 +62,11 @@
                     />
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                    <vue-editor
                       v-model="moneyGetInData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                      :rules="validationRules.description"
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -148,14 +134,16 @@ export default {
   mounted() {},
   methods: {
     openDialog() {
-      this.moneyGetInData.timestamp = this.$moment().format('YYYY-MM-DDTHH:mm:ss');;
+      this.moneyGetInData.timestamp = this.$moment().format(
+        "YYYY-MM-DDTHH:mm:ss"
+      );
       this.dialog = true;
     },
 
     emitImage(e) {
       this.moneyGetInData.image = e; // Update the imageUrl when received from the child component
     },
-    emitPeople(e){
+    emitPeople(e) {
       this.moneyGetInData.whoseId = e.id;
       this.moneyGetInData.whoseMoney = e.name;
     },
@@ -170,7 +158,7 @@ export default {
           "moneyGetIn/addmoneyGetIn",
           this.moneyGetInData
         );
-
+      this.resetFormPeopleSelect();
       this.loading = false;
       this.dialog = false;
       this.moneyGetInData = {
@@ -184,6 +172,9 @@ export default {
         createDate: null,
         updateDate: null,
       };
+    },
+    resetFormPeopleSelect() {
+      this.$refs.resetPeopleSelect.resetForm();
     },
   },
 };

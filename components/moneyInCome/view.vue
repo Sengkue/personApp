@@ -43,9 +43,9 @@
               <v-col cols="6">{{ item.updateDate | DateToText }}</v-col>
        
               <v-col cols="5">ລາຍລະອຽດ:</v-col>
-              <v-col :cols="`${item.description.length > 25 ? 12 : 6}`">{{
-                item.description? item.description : "ບໍ່ມີຂໍ້ມູນ"
-              }}</v-col>
+              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`" >
+                <div v-html="item?.description"></div>
+               </v-col>
             </v-row>
           </v-col>
         </v-row>

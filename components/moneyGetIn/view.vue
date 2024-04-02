@@ -6,7 +6,7 @@
           <v-icon>mdi-eye</v-icon>
         </v-btn>
       </template>
-     ເບິ່ງລາຍລະອຽດ
+      ເບິ່ງລາຍລະອຽດ
     </v-tooltip>
 
     <v-dialog v-model="dialog" persistent max-width="600px" class="pa-5">
@@ -30,24 +30,23 @@
           </v-col>
           <v-col cols="12" sm="8">
             <v-row>
-              <v-col cols="5">ໃຊ້ຈ່າຍກັບ:</v-col>
-              <v-col cols="6">{{ item?.name }}</v-col>
               <v-col cols="5">ຈຳນວນເງິນ:</v-col>
               <v-col cols="6">{{ formatPrice(item?.money) }} ກີບ</v-col>
 
               <v-col cols="5">ເງິນໃຜ:</v-col>
               <v-col cols="6">{{ item?.whoseMoney }}</v-col>
-              <v-col cols="5">ເວລາໃຊ້ຈ່າຍ:</v-col>
+              <v-col cols="5">ເວລາຢືນ:</v-col>
               <v-col cols="6">{{ formatDateTime(item?.timestamp) }}</v-col>
 
               <v-col cols="5">ເວລາສ້າງ:</v-col>
               <v-col cols="6">{{ item?.createDate | DateToText }}</v-col>
               <v-col cols="5">ເວລາແກ້ໃຂ:</v-col>
               <v-col cols="6">{{ item?.updateDate | DateToText }}</v-col>
-              <v-col cols="5">ລາຍລະອຽດ:</v-col>
-              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">{{
-                item?.description
-              }}</v-col>
+              <v-col cols="5" class="pa-3">ລາຍລະອຽດ:</v-col>
+              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">
+                <div v-if="item?.description" v-html="item?.description"></div>
+                <div v-else>ບໍ່ມີຂໍ້ມູນ</div>
+              </v-col>
             </v-row>
           </v-col>
         </v-row>

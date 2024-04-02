@@ -55,16 +55,12 @@
                   </v-col>
 
                   <v-col cols="12" class="py-0" sm="6">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyInComeData.whoseMoney"
-                      label="ເງິນໃຜ*"
-                      required
-                    ></v-text-field>
+                    <PeopleSelectPeople
+                      :task="moneyInComeData.whoseMoney"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
-               
+
                   <v-col cols="12" class="py-0" sm="6">
                     <input
                       type="datetime-local"
@@ -80,14 +76,11 @@
                     />
                   </v-col>
                   <v-col cols="12" class="pt-5">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                    <vue-editor
                       v-model="moneyInComeData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -96,7 +89,7 @@
             <v-card-actions>
               <v-spacer></v-spacer>
               <v-btn color="blue darken-1" text @click="dialog = false">
-               ປິດ
+                ປິດ
               </v-btn>
               <v-btn
                 color="blue darken-1"
@@ -117,7 +110,10 @@
 <script>
 export default {
   props: {
-    item: [],
+    item: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data: () => ({
     valid: false,
@@ -134,18 +130,19 @@ export default {
       updateDate: null,
     },
   }),
-  computed: {},
-  mounted() {
-    this.moneyInComeData.id = this.item?.id;
-    this.moneyInComeData.money = this.item?.money;
-    this.moneyInComeData.whoseMoney = this.item?.whoseMoney;
-    this.moneyInComeData.description = this.item?.description;
-    this.moneyInComeData.timestamp = this.item?.timestamp;
-    this.moneyInComeData.image = this.item?.image;
-    this.moneyInComeData.createDate = this.item?.createDate;
+  watch: {
+    item: {
+      handler(newVal) {
+        Object.assign(this.moneyInComeData, { ...newVal });
+      },
+      immediate: true,
+    },
   },
 
   methods: {
+    emitPeople(e) {
+      this.moneyInComeData.whoseMoney = e.name;
+    },
     emitImage(e) {
       this.moneyInComeData.image = e; // Update the imageUrl when received from the child component
     },

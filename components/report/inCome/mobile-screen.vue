@@ -77,10 +77,11 @@
               <v-col cols="6">{{ item.createDate | DateToText }}</v-col>
               <v-col cols="5">ເວລາແກ້ໃຂ:</v-col>
               <v-col cols="6">{{ item.updateDate | DateToText }}</v-col>
-              <v-col cols="5">ລາຍລະອຽດ:</v-col>
-              <v-col :cols="`${item.description.length > 25 ? 12 : 6}`">{{
-                item.description
-              }}</v-col>
+              <v-col cols="5" class="pa-3">ລາຍລະອຽດ:</v-col>
+              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">
+                <div v-if="item?.description" v-html="item?.description"></div>
+                <div v-else>ບໍ່ມີຂໍ້ມູນ</div>
+              </v-col>
             </v-row>
           </v-col>
         </v-row>
