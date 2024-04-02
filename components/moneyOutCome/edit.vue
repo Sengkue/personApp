@@ -124,7 +124,10 @@
 <script>
 export default {
   props: {
-    item: [],
+    item: {
+      type: Object,
+      default: () => ({}),
+    },
   },
   data: () => ({
     valid: false,
@@ -142,16 +145,17 @@ export default {
       updateDate: null,
     },
   }),
-  computed: {},
-  mounted() {
-    this.moneyOutComeData.id = this.item?.id;
-    this.moneyOutComeData.name = this.item?.name;
-    this.moneyOutComeData.money = this.item?.money;
-    this.moneyOutComeData.whoseMoney = this.item?.whoseMoney;
-    this.moneyOutComeData.description = this.item?.description;
-    this.moneyOutComeData.timestamp = this.item?.timestamp;
-    this.moneyOutComeData.image = this.item?.image;
-    this.moneyOutComeData.createDate = this.item?.createDate;
+  watch: {
+    item: {
+      handler(newVal) {
+        Object.assign(this.moneyOutComeData, { ...newVal });
+        //     Object.assign(this.moneyOutComeData, {
+        //   id: newVal.id,
+        //   name: newVal.name,
+        // });
+      },
+      immediate: true,
+    },
   },
 
   methods: {

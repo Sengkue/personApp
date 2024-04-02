@@ -79,7 +79,10 @@
 <script>
 export default {
   props: {
-    item: [],
+    item: {
+      type: Array,
+      default: () => [],
+    },
   },
   data: () => ({
     valid: false,
@@ -92,17 +95,21 @@ export default {
       createDate: null,
     },
   }),
-  computed: {},
-  mounted() {
-    this.moneyTypeData.id = this.item?.id;
-    this.moneyTypeData.type = this.item?.type;
-    this.moneyTypeData.image = this.item?.image;
-    this.moneyTypeData.createDate = this.item?.createDate;
+  watch: {
+    item: {
+      handler(newVal) {
+        this.moneyTypeData.id = newVal?.id;
+        this.moneyTypeData.type = newVal?.type;
+        this.moneyTypeData.image = newVal?.image;
+        this.moneyTypeData.createDate = newVal?.createDate;
+      },
+      immediate: false,
+    },
   },
 
   methods: {
     emitImage(e) {
-      this.moneyTypeData.image = e; // Update the imageUrl when received from the child component
+      this.moneyTypeData.image = e; 
     },
     async updateItem() {
       this.$refs.form.validate();
