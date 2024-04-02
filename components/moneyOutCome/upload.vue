@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-dialog v-model="dialog" max-width="600px">
+    <v-dialog v-model="dialog" transition="dialog-top-transition" max-width="600px">
       <template v-slot:activator="{ on }">
         <v-btn color="primary" v-on="on">
           <v-icon>mdi-camera-plus</v-icon></v-btn

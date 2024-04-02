@@ -14,6 +14,7 @@
       v-model="dialog"
       class="pa-0 ma-0"
       max-width="600px"
+      transition="dialog-top-transition"
       :fullscreen="$vuetify.breakpoint.xs ? true : false"
     >
       <!-- max-width="600px" -->
@@ -48,11 +49,15 @@
           class="pa-0 ma-0"
           style="position: relative; height: 75vh; overflow: auto"
         >
-          <div v-if="filteredItems.length > 0" class="d-flex flex-wrap">
-            <v-card
+          <v-row v-if="filteredItems.length > 0" no-gutters>
+            <v-col
+              cols="4"
+              sm="3"
+              md="2"
+              lg="2"
               v-for="item in filteredItems"
               :key="item.id"
-              class="box2"
+              class="elevation-1 pt-1"
               width="100px"
               @click="selectItem(item)"
             >
@@ -121,8 +126,8 @@
                   </v-list>
                 </v-menu>
               </div>
-            </v-card>
-          </div>
+            </v-col>
+          </v-row>
           <v-card v-else class="no-data-message">
             <v-card-text>ບໍ່ມີຂໍ້ມູນ!</v-card-text>
           </v-card>
@@ -224,7 +229,11 @@
 <script>
 export default {
   type: "TypeSelect",
-
+  props: {
+    taskType: {
+      type: String,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -268,8 +277,16 @@ export default {
     this.loading = true;
     await this.$store.dispatch("moneyType/selectAll");
     this.loading = false;
+    this.allUpdate();
+
   },
   methods: {
+    //----------------- when update any value
+    allUpdate() {
+      if (this.taskType) {
+        this.selectedItem.type = this.taskType;
+      }
+    },
     resetForm() {
       this.selectedItem = {
         id: null,

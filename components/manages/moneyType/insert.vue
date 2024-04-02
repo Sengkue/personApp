@@ -4,7 +4,7 @@
       ><v-icon>mdi-plus-box</v-icon>ເພີ່ມໃໝ່</v-btn
     >
     <v-row justify="center">
-      <v-dialog v-model="dialog" persistent max-width="600px">
+      <v-dialog v-model="dialog" transition="dialog-top-transition" persistent max-width="600px">
         <v-card>
           <v-form ref="form" v-model="valid">
             <v-card-text>

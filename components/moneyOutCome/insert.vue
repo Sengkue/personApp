@@ -11,7 +11,7 @@
         max-width="600px"
         :fullscreen="$vuetify.breakpoint.xs ? true : false"
       >
-        <v-card>
+        <v-card class="pa-0 ma-0">
           <v-form ref="form" v-model="valid">
             <v-card-title>
               <span class="shadow">ບັນທຶກຂໍ້ມູນການໃຊ້ຈ່າຍ</span>
@@ -34,23 +34,12 @@
                     <moneyOutComeUpload @image-uploaded="emitImage" />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
-                    <!-- :rules="nameRules" -->
-                    <!-- <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyOutComeData.name"
-                      label="ໃຊ້ກັບ*"
-                      required
-                      :rules="validationRules.name"
-                    ></v-text-field> -->
                     <ManagesMoneyTypeSelect
                       ref="resetTypeSelect"
                       @typeValue="emitType"
                     />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
-                    <!-- :rules="surnameRules" -->
                     <v-text-field
                       clearable
                       outlined
@@ -61,29 +50,11 @@
                     ></v-text-field>
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
-                    <PeopleSelectPeople ref="resetPeopleSelect" @peopleValue="emitPeople" />
-                    <!-- <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyOutComeData.whoseMoney"
-                      label="ເງິນໃຜ*"
-                      required
-                      :rules="validationRules.whoseMoney"
-                    ></v-text-field> -->
+                    <PeopleSelectPeople
+                      ref="resetPeopleSelect"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
-                  <!-- <v-col cols="12" sm="6" class="py-0">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyOutComeData.address"
-                      label="ສະຖານທີ່*"
-                      required
-                      :rules="validationRules.address"
-                    >
-                    </v-text-field>
-                  </v-col> -->
 
                   <v-col cols="12" class="py-0" sm="6">
                     <v-text-field
@@ -98,14 +69,11 @@
                     />
                   </v-col>
                   <v-col cols="12" class="py-0">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                    <vue-editor
                       v-model="moneyOutComeData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>

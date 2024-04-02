@@ -118,9 +118,13 @@
                   item?.updateDate | DateToText
                 }}</v-col>
                 <v-col cols="5" class="pa-3">ລາຍລະອຽດ:</v-col>
-                <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">{{
-                  item?.description ? item?.description : "ບໍ່ມີຂໍ້ມູນ"
-                }}</v-col>
+                <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">
+                  <div
+                    v-if="item?.description"
+                    v-html="item?.description"
+                  ></div>
+                  <div v-else>ບໍ່ມີຂໍ້ມູນ</div>
+                </v-col>
               </v-row>
             </v-col>
           </v-row>

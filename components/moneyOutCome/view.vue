@@ -9,7 +9,7 @@
       View
     </v-tooltip>
 
-    <v-dialog v-model="dialog" persistent max-width="600px" class="pa-5">
+    <v-dialog v-model="dialog" transition="dialog-top-transition" persistent max-width="600px" class="pa-5">
       <v-card>
         <v-card-title>
           <span class="shadow">ລາຍລະອຽດຂອງການໃຊ້ຈ່າຍ</span>
@@ -48,9 +48,9 @@
                 item?.address ? item?.address : "ບໍ່ມີຂໍ້ມູນ"
               }}</v-col>
               <v-col cols="5">ລາຍລະອຽດ:</v-col>
-              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`">{{
-                item?.description
-              }}</v-col>
+              <v-col :cols="`${item?.description?.length > 25 ? 12 : 6}`" >
+                <div v-html="item?.description"></div>
+               </v-col>
             </v-row>
           </v-col>
         </v-row>

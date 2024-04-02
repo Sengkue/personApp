@@ -15,7 +15,7 @@
       </template>
       Edit
     </v-tooltip>
-    <v-row justify="center">
+    <v-row justify="center" no-gutters>
       <v-dialog
         v-model="dialog"
         transition="dialog-top-transition"
@@ -30,7 +30,7 @@
             </v-card-title>
             <v-card-text>
               <v-container>
-                <v-row>
+                <v-row class="my-0 pa-0">
                   <v-col cols="8" class="py-0">
                     <v-text-field
                       clearable
@@ -46,14 +46,10 @@
                     <moneyOutComeUpload @image-uploaded="emitImage" />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
-                    <v-text-field
-                      clearable
-                      outlined
-                      dense
-                      v-model="moneyOutComeData.name"
-                      label="ໃຊ້ຈ່າຍກັບ*"
-                      required
-                    ></v-text-field>
+                    <ManagesMoneyTypeSelect
+                      :taskType="moneyOutComeData.name"
+                      @typeValue="emitType"
+                    />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
                     <v-text-field
@@ -66,14 +62,18 @@
                   </v-col>
 
                   <v-col cols="12" class="py-0" sm="6">
-                    <v-text-field
+                    <!-- <v-text-field
                       clearable
                       outlined
                       dense
                       v-model="moneyOutComeData.whoseMoney"
                       label="ເງິນໃຜ*"
                       required
-                    ></v-text-field>
+                    ></v-text-field> -->
+                    <PeopleSelectPeople
+                      :task="moneyOutComeData.whoseMoney"
+                      @peopleValue="emitPeople"
+                    />
                   </v-col>
                   <v-col cols="12" class="py-0" sm="6">
                     <input
@@ -89,15 +89,12 @@
                       "
                     />
                   </v-col>
-                  <v-col cols="12" class="pt-5">
-                    <v-textarea
-                      clearable
-                      outlined
-                      dense
+                  <v-col cols="12" class="pa-0">
+                    <vue-editor
                       v-model="moneyOutComeData.description"
-                      label="ລາຍລະອຽດ*"
-                      required
-                    ></v-textarea>
+                      placeholder="ໃສ່ຄຳອະທິບາຍ..."
+                      label="ຄຳອະທິບາຍ"
+                    />
                   </v-col>
                 </v-row>
               </v-container>
@@ -115,7 +112,7 @@
                 :disabled="!valid"
                 @click="updateItem()"
               >
-              ບັນທືກແກ້ໄຂ
+                ບັນທືກແກ້ໄຂ
               </v-btn>
             </v-card-actions>
           </v-form>
@@ -158,6 +155,12 @@ export default {
   },
 
   methods: {
+    emitPeople(e) {
+      this.moneyOutComeData.whoseMoney = e.name;
+    },
+    emitType(e) {
+      this.moneyOutComeData.name = e.type;
+    },
     emitImage(e) {
       this.moneyOutComeData.image = e; // Update the imageUrl when received from the child component
     },
@@ -174,7 +177,7 @@ export default {
       this.dialog = false;
 
       // clear data
-      moneyOutComeData = {
+      this.moneyOutComeData = {
         id: null,
         name: null,
         money: null,
@@ -184,8 +187,7 @@ export default {
         image: null,
         createDate: null,
         updateDate: null,
-        
-      }
+      };
     },
   },
 };
@@ -193,7 +195,7 @@ export default {
 
 <style>
 .shadow {
-  border-bottom: 2px solid black;
+  border-bottom: 2px solid rgb(32, 25, 25);
   border-right: 2px solid black;
   padding: 5px;
   box-shadow: 2px 2px 4px #999;

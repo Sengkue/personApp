@@ -19,6 +19,7 @@
       <v-dialog
         v-model="dialog"
         persistent
+        transition="dialog-top-transition"
         max-width="600px"
       >
         <v-card class="pt-5">

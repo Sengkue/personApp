@@ -1,9 +1,5 @@
 <template>
   <div class="pa-0 ma-0">
-    <!-- <v-text-field
-      @click="openDialog"
-      v-model="selectedItem.name"
-    ></v-text-field> -->
     <v-text-field
       v-model="selectedItem.name"
       clearable
@@ -17,10 +13,10 @@
     <v-dialog
       v-model="dialog"
       class="pa-0 ma-0"
+      transition="dialog-top-transition"
       max-width="600px"
       :fullscreen="$vuetify.breakpoint.xs ? true : false"
-      >
-      <!-- max-width="600px" -->
+    >
       <v-card class="pa-0 ma-0 rounded-0">
         <v-card
           elevation="0"
@@ -45,13 +41,13 @@
             hide-details
           ></v-text-field>
           <v-card-actions class="mt-n7">
-            <!-- <v-btn @click="closeDialog"
-              ><v-icon>mdi-account-multiple-plus</v-icon></v-btn
-            > -->
             <PeopleInsert />
           </v-card-actions>
         </div>
-        <v-card-text class="pa-0 ma-0" style="position: relative; height: 75vh; overflow: auto;">
+        <v-card-text
+          class="pa-0 ma-0"
+          style="position: relative; height: 75vh; overflow: auto"
+        >
           <v-list v-if="filteredItems.length > 0">
             <v-list-item
               v-for="item in filteredItems"
@@ -281,7 +277,11 @@
 <script>
 export default {
   name: "StoreMoneyByFirebaseInsert",
-
+  props: {
+    task: {
+      type: String,
+    },
+  },
   data() {
     return {
       loading: false,
@@ -342,17 +342,23 @@ export default {
     this.loading = true;
     await this.$store.dispatch("people/selectAll");
     this.loading = false;
+    this.allUpdate();
   },
-
   methods: {
+    //----------------- when update any value
+    allUpdate() {
+      if (this.task) {
+        this.selectedItem.name = this.task;
+      }
+    },
+    // ----------------reset form after submit
     resetForm() {
       this.selectedItem = {
         id: null,
         name: null,
         image: null,
         createDate: null,
-        
-      }
+      };
     },
     emitImage(e) {
       this.peopleData.image = e; // Update the imageUrl when received from the child component
