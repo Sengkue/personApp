@@ -38,6 +38,7 @@
             :append-icon="show ? 'mdi-eye' : 'mdi-eye-off'"
             :type="show ? 'text' : 'password'"
             @click:append="show = !show"
+            @keyup.enter="login()"
           >
             <template #prepend-inner>
               <v-icon color="primary" right>mdi-key-plus </v-icon>
@@ -153,8 +154,8 @@ export default {
       loading: false,
       AllUser: [],
       user: {
-        email: "xeebkwmvaj@gmail.com",
-        password: "78781525",
+        email: "",
+        password: "",
       },
       emailRules: [
         (v) => !!v || 'ຈຳເປັນ', // Check if email is provided

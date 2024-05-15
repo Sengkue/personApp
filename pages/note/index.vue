@@ -42,8 +42,8 @@
                   class="text-truncate"
                   v-html="
                     `${
-                      data?.noteTitle?.length > 12
-                        ? data?.noteTitle?.slice(0, 12) + '...'
+                      data?.noteTitle?.length > 15
+                        ? data?.noteTitle?.slice(0, 15) + '...'
                         : data?.noteTitle
                     }`
                   "
@@ -91,7 +91,11 @@
             </div>
             <div class="d-flex justify-space-between align-center pr-4">
               <p class="pt-4 text-truncate">{{ data?.date }}</p>
-              <p class="pt-4 text-truncate">{{ data?.date | DateToText }}</p>
+              <p
+                class="d-flex align-center justify-space-between pt-4 text-truncate"
+              >
+                {{ data?.date | DateToText }}
+              </p>
             </div>
           </v-card>
         </v-hover>
@@ -182,15 +186,22 @@ export default {
   },
   methods: {
     async getAllNote() {
-      await this.$axios.get("/note.json").then((res) => {
-        console.log(res.data);
+      try {
+        const res = await this.$axios.get("/note.json");
         const fetchedData = res.data;
         const ArrData = [];
+
         for (let key in fetchedData) {
           ArrData.push({ id: key, ...fetchedData[key] });
         }
+
+        ArrData.sort((a, b) => {
+          return new Date(b.date) - new Date(a.date);
+        });
         this.results = ArrData;
-      });
+      } catch (error) {
+        console.error("Error fetching notes:", error);
+      }
     },
     async deleteNote(id) {
       try {

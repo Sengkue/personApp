@@ -80,7 +80,7 @@
 export default {
   props: {
     item: {
-      type: Array,
+      type: Object,
       default: () => [],
     },
   },
@@ -98,12 +98,14 @@ export default {
   watch: {
     item: {
       handler(newVal) {
-        this.moneyTypeData.id = newVal?.id;
-        this.moneyTypeData.type = newVal?.type;
-        this.moneyTypeData.image = newVal?.image;
-        this.moneyTypeData.createDate = newVal?.createDate;
+        Object.assign(this.moneyTypeData, {
+          id: newVal?.id,
+          type: newVal?.type,
+          image: newVal?.image,
+          createDate: newVal?.createDate,
+        });
       },
-      immediate: false,
+      immediate: true,
     },
   },
 

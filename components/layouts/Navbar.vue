@@ -65,7 +65,10 @@
       >
         <v-icon>mdi-{{ `chevron-${miniVariant ? "right" : "left"}` }}</v-icon>
       </v-btn>
-      <v-toolbar-title>{{ title }}</v-toolbar-title>
+      <!-- <v-toolbar-title>{{ title }}</v-toolbar-title> -->
+      <v-avatar >
+        <v-img class="pa-2" src="/gif/logo.gif" lazy-src="/gif/logo.gif" contain></v-img>
+      </v-avatar>
       <v-spacer />
       <div v-ripple class="text-center px-3 cursor-pointer" @click="setTheme">
         <div>
@@ -221,10 +224,42 @@ export default {
             },
           ],
         },
+        {
+          icon: "mdi-movie-open-play",
+          title: "ປຸ່ມເມນູບັນເທິນ",
+          children: [
+            {
+              title: "ວິດີໂອໃຫ້ກຳລັງໃຈ",
+              icon: "mdi-multimedia",
+              to: "/coding",
+            },
+            {
+              title: "ປະເພດວິດີໂອ",
+              icon: "mdi-multimedia",
+              to: "/coding/type",
+            },
+          ],
+        },
+        {
+          icon: "mdi-xml",
+          title: "ປຸ່ມເມນູລະຫັດ",
+          children: [
+            {
+              title: "ລະຫັດທັງຫມົດ",
+              icon: "mdi-xml",
+              to: "/coding",
+            },
+            {
+              title: "ປະເພດລະຫັດ",
+              icon: "mdi-xml",
+              to: "/coding/type",
+            },
+          ],
+        },
       ],
       miniVariant: false,
       rightDrawer: false,
-      title: "Save Money",
+      title: "save",
     };
   },
   created() {

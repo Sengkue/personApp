@@ -1,6 +1,6 @@
 <template>
   <div class="pa-0 ma-0">
-    <v-expansion-panels v-model="activePanel" accordion class="pa-0 ma-0">
+    <v-expansion-panels  accordion class="pa-0 ma-0">
       <v-expansion-panel v-for="(panel, index) in panels" :key="index">
         <v-expansion-panel-header
           class="pa-1"
@@ -196,6 +196,48 @@ export default {
         //     },
         //   ],
         // },
+        {
+          title: "ປຸ່ມກຸ່ມວິດີໂອ",
+          icon: true,
+          iconName: "mdi-calculator-variant",
+          iconImg: "/icons/videosLogo.png",
+          backgroundColor: "#e7e7e7",
+          items: [
+            {
+              label: "ປະເພດວິດີໂດ",
+              icon: "mdi-shape-plus-outline",
+              iconImg: "/icons/videosCategory.png",
+              to: "/videos/type",
+            },
+            {
+              label: "ວິດີໂອທັງໝົດ",
+              icon: "mdi-multimedia",
+              iconImg: "/icons/youtube.png",
+              to: "/videos",
+            },
+          ],
+        },
+        {
+          title: "ປຸ່ມກຸ່ມຂຽນລະຫັດ",
+          icon: true,
+          iconName: "mdi-calculator-variant",
+          iconImg: "/icons/coding.png",
+          backgroundColor: "#e7e7e7",
+          items: [
+            {
+              label: "ປະເພດ <Coding/>",
+              icon: "mdi-shape-plus-outline",
+              iconImg: "/icons/codingLogo.png",
+              to: "/code/type",
+            },
+            {
+              label: "<Coding/> ທັງໝົດ",
+              icon: "mdi-multimedia",
+              iconImg: "/icons/codingAll.png",
+              to: "/code",
+            },
+          ],
+        },
         {
           title: "ປຸ່ມກຸ່ມບວກລົດຄູນຫານ",
           icon: true,
