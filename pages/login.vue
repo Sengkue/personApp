@@ -54,7 +54,13 @@
           <v-spacer></v-spacer>
         </v-card-actions>
         <v-row class="mt-0 px-3" @click="$router.push('/ForgotPassword')">
-          <v-col cols="12" class="text-end primary--text" style="cursor: pointer"> ລືມລະຫັດຜ່ານ? </v-col>
+          <v-col
+            cols="12"
+            class="text-end primary--text"
+            style="cursor: pointer"
+          >
+            ລືມລະຫັດຜ່ານ?
+          </v-col>
         </v-row>
         <!-- <v-row class="mt-0 px-3" @click="register">
           <v-col cols="6"> ຍັງບໍ່ມີບັນຊີ! </v-col>
@@ -127,7 +133,13 @@
           </v-btn>
         </v-card-actions>
         <v-row class="mt-0 px-3" @click="$router.push('/ForgotPassword')">
-          <v-col cols="12" class="text-end primary--text" style="cursor: pointer"> ລືມລະຫັດຜ່ານ? </v-col>
+          <v-col
+            cols="12"
+            class="text-end primary--text"
+            style="cursor: pointer"
+          >
+            ລືມລະຫັດຜ່ານ?
+          </v-col>
           <!-- <v-col cols="6" class="d-flex justify-end">
             <v-icon>mdi-account</v-icon>ລົງທະບຽບ
           </v-col> -->
@@ -158,8 +170,8 @@ export default {
         password: "",
       },
       emailRules: [
-        (v) => !!v || 'ຈຳເປັນ', // Check if email is provided
-        (v) => /.+@.+\..+/.test(v) || 'ກະລຸນາໃສ່ອີເມວທີ່ຖືກຕ້ອງ', // Check if it's a valid email
+        (v) => !!v || "ຈຳເປັນ", // Check if email is provided
+        (v) => /.+@.+\..+/.test(v) || "ກະລຸນາໃສ່ອີເມວທີ່ຖືກຕ້ອງ", // Check if it's a valid email
       ],
     };
   },
@@ -186,14 +198,15 @@ export default {
         this.$cookies.set("token", token, {
           secure: true,
           path: "/",
-          maxAge: 3600, // Expires in 180 seconds (3 minutes)
+          // maxAge: 3600, // Expires in 180 seconds (3 minutes)
+          maxAge: 43200, // Expires in 12 hours
         });
         this.loading = false;
         this.$router.push("/");
       } catch (error) {
-        if (error.code === 'auth/invalid-login-credentials') {
-        this.$toast.error("ຂໍ້ມູນການເຂົ້າສູ່ລະບົບບໍ່ຖືກຕ້ອງ");
-      }
+        if (error.code === "auth/invalid-login-credentials") {
+          this.$toast.error("ຂໍ້ມູນການເຂົ້າສູ່ລະບົບບໍ່ຖືກຕ້ອງ");
+        }
       }
       this.loading = false;
     },
