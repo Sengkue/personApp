@@ -290,6 +290,7 @@ export default {
   methods: {
     //----------------- when update any value
     allUpdate() {
+      console.log("shoooooo", this.taskType);
       if (this.taskType) {
         this.selectedItem.type = this.taskType;
       }

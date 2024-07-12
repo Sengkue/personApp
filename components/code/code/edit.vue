@@ -36,12 +36,25 @@
                     clearable
                     outlined
                     dense
-                    v-model="dataItem.title"
-                    label="URL"
+                    v-model="dataItem.v_video"
+                    label="Lin Video"
                     required
                     hide-details="auto"
                     append-icon="mdi-content-paste"
-                    @click:append="pasteLink"
+                    @click:append="pastUrl"
+                  ></v-text-field>
+                </v-col>
+                <v-col cols="12">
+                  <v-text-field
+                    clearable
+                    outlined
+                    dense
+                    v-model="dataItem.title"
+                    label="ຫົວຂໍ້"
+                    required
+                    hide-details="auto"
+                    append-icon="mdi-content-paste"
+                    @click:append="pasteTitle"
                   ></v-text-field>
                 </v-col>
                 <v-col cols="12">
@@ -128,9 +141,15 @@ export default {
     },
   },
   methods: {
-    pasteLink() {
+    pasteTitle() {
       navigator.clipboard.readText().then((text) => {
         this.dataItem.title = text;
+
+      });
+    },
+    pastUrl() {
+      navigator.clipboard.readText().then((text) => {
+        this.dataItem.v_video = text;
       });
     },
     emitType(e) {

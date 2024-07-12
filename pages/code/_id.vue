@@ -2,22 +2,20 @@
   <div>
     <v-app-bar v-if="$vuetify.breakpoint.xs" fixed app>
       <v-btn class="pa-0 ma-0" icon @click="$router.push('/')">
-        <v-icon> mdi-arrow-left </v-icon>
+        <v-icon>mdi-arrow-left</v-icon>
       </v-btn>
       <v-spacer />
       <v-toolbar-title class="ml-n10">coding</v-toolbar-title>
       <v-spacer />
       <div></div>
     </v-app-bar>
-    <!-- __________________app bar for desktop________________ -->
+    <!-- app bar for desktop -->
     <LayoutsNavbar v-else />
-     <div style="z-index: 15;">
-       <CodeCodeInsert />
-       <CodeCodeChangeColor @actionChange="colorValue" />
-
-     </div>
+    <div style="z-index: 15;">
+      <CodeCodeInsert />
+      <CodeCodeChangeColor @actionChange="colorValue" />
+    </div>
     <v-card class="rounded-0" elevation="0">
-      <!-- -------------------------------------------------------------select post answers ------------------------------------------------ -->
       <v-row
         class="px-2"
         no-gutters
@@ -60,8 +58,17 @@
                 color: 'white',
                 padding: '10px',
               }"
-              v-html="makeLinksClickable(sanitizeHTML(answer?.description))"
-            ></div>
+            >
+              <div>
+                <div v-html="!showfullcode? answer.description.slice(0, 50) + '...' : answer.description"></div>
+           
+                <span>
+                  <v-btn color="white" text @click="toggleDescription">
+                   {{ !showfullcode? "more":"less" }}
+                  </v-btn>
+                </span>
+              </div>
+            </div>
 
             <div v-if="isYouTubeVideo(answer?.v_video)">
               <!-- eslint-disable-next-line vue/no-v-html -->
@@ -119,6 +126,7 @@
 
 <script>
 import DOMPurify from "dompurify";
+
 export default {
   name: "ItcSeerLandingBody",
   layout: "report",
@@ -136,6 +144,7 @@ export default {
       bottom: true,
       left: false,
       transition: "slide-y-reverse-transition",
+      showfullcode: false,
     };
   },
   computed: {
@@ -164,24 +173,12 @@ export default {
     colorValue(e) {
       this.colorChange = e;
     },
-    DeleteItem() {
-      this.dialogDelete = true;
-    },
-    sanitizeHTML(html) {
-      return DOMPurify.sanitize(html);
-    },
-    makeLinksClickable(html) {
-      return html
-        .replace(/(https?:\/\/\S+)/gi, '<a href="$1" target="_blank">$1</a>')
-        .replace(/^/, "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-    },
     isYouTubeVideo(url) {
       if (url && typeof url === "string") {
         return url.includes("youtube.com") || url.includes("youtu.be");
       }
       return false;
     },
-
     getYouTubeVideoId(url) {
       let videoId = "";
       if (url && typeof url === "string") {
@@ -199,10 +196,19 @@ export default {
       }
       return videoId;
     },
+    toggleDescription() {
+      this.showfullcode = !this.showfullcode;
+    },
+    truncatedDescription(description) {
+      if (description.length > 35) {
+        return description.slice(0, 35) + "...";
+      } else {
+        return description;
+      }
+    },
   },
 };
 </script>
-
 <style lang="scss" scoped>
 .font-size {
   font-size: 15px;
@@ -218,7 +224,7 @@ export default {
 .animate-charcter {
   text-transform: uppercase;
   background-image: linear-gradient(
-    -225deg,
+    -235deg,
     #3700ff 0%,
     #03611f 29%,
     #ff1361 67%,
@@ -234,7 +240,7 @@ export default {
   -webkit-text-fill-color: transparent;
   animation: textclip 3s linear infinite;
   display: inline-block;
-  font-size: 25px;
+  font-size: 35px;
   font-weight: bold;
 }
 
